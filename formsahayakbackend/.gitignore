@@ -1,0 +1,8 @@
+google-services.json
+.env
+venv/
+__pycache__/
+node_modules/
+pdfs/
+*.pyc
+uploads/

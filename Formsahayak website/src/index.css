@@ -1,0 +1,201 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-slate-50: var(--slate-50-color);
+  --color-slate-100: var(--slate-100-color);
+  --color-slate-200: var(--slate-200-color);
+  --color-slate-300: var(--slate-300-color);
+  --color-slate-350: var(--slate-350-color);
+  --color-slate-400: var(--slate-400-color);
+  --color-slate-500: var(--slate-500-color);
+  --color-slate-600: var(--slate-600-color);
+  --color-slate-700: var(--slate-700-color);
+  --color-slate-800: var(--slate-800-color);
+  --color-slate-900: var(--slate-900-color);
+  --color-slate-950: var(--slate-950-color);
+}
+
+@layer base {
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #ffffff;
+    --border-color: #e2e8f0;
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --accent-primary: #2563eb;
+    --accent-secondary: #4f46e5;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    --glow-color: rgba(37, 99, 235, 0.05);
+    --input-bg: #ffffff;
+    --sidebar-bg: #ffffff;
+    --active-item-bg: #f3f4f6;
+    --pulse-color: rgba(239, 68, 68, 0.2);
+
+    /* Dynamic Slate Color Mappings for Light Theme */
+    --slate-50-color: #ffffff;
+    --slate-100-color: #fcfcfc;
+    --slate-200-color: #f3f4f6;
+    --slate-300-color: #e5e7eb;
+    --slate-350-color: #cbd5e1;
+    --slate-400-color: #94a3b8;
+    --slate-500-color: #475569;
+    --slate-600-color: #334155;
+    --slate-700-color: #1e293b;
+    --slate-800-color: #000000;
+    --slate-900-color: #000000;
+    --slate-950-color: #000000;
+  }
+
+  .dark {
+    --bg-primary: #030712;
+    --bg-secondary: #0b0f19;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-primary: #3b82f6;
+    --accent-secondary: #8b5cf6;
+    --card-bg: rgba(11, 15, 25, 0.7);
+    --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --glow-color: rgba(59, 130, 246, 0.3);
+    --input-bg: #111827;
+    --sidebar-bg: #070b13;
+    --active-item-bg: rgba(59, 130, 246, 0.15);
+    --pulse-color: rgba(239, 68, 68, 0.45);
+
+    /* Dynamic Slate Color Mappings for Dark Theme */
+    --slate-50-color: #f8fafc;
+    --slate-100-color: #f1f5f9;
+    --slate-200-color: #e2e8f0;
+    --slate-300-color: #cbd5e1;
+    --slate-350-color: #cbd5e1;
+    --slate-400-color: #94a3b8;
+    --slate-500-color: #64748b;
+    --slate-600-color: #475569;
+    --slate-700-color: #334155;
+    --slate-800-color: #1e293b;
+    --slate-900-color: #0f172a;
+    --slate-950-color: #020617;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Custom premium scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Custom premium Glassmorphism and animations */
+.glass-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+}
+
+.glass-card-glow {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card-glow::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.glass-card-glow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px var(--glow-color);
+}
+.glass-card-glow:hover::after {
+  opacity: 1;
+}
+
+/* Animated neon mesh backgrounds */
+.bg-mesh-light {
+  background-color: #ffffff;
+}
+.bg-mesh-dark {
+  background-image: radial-gradient(at 0% 0%, hsla(222, 47%, 11%, 1) 0px, transparent 50%),
+                    radial-gradient(at 100% 0%, hsla(244, 40%, 9%, 1) 0px, transparent 50%),
+                    radial-gradient(at 100% 100%, hsla(200, 50%, 6%, 1) 0px, transparent 50%),
+                    radial-gradient(at 0% 100%, hsla(230, 45%, 8%, 1) 0px, transparent 50%);
+}
+
+/* Glowing text effects */
+.glow-text-blue {
+  text-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+.glow-text-purple {
+  text-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+}
+
+/* Custom Pulse Animation for Highlighted OCR Elements */
+@keyframes ocr-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 2px var(--pulse-color), 0 0 10px var(--pulse-color);
+    background-color: rgba(239, 68, 68, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 0 6px var(--pulse-color), 0 0 20px var(--pulse-color);
+    background-color: rgba(239, 68, 68, 0.28);
+  }
+}
+
+.ocr-glow-box {
+  animation: ocr-pulse 2s infinite ease-in-out;
+  border-width: 2.5px !important;
+  transition: all 0.3s ease;
+}
+
+/* Custom entry animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Smooth active menu glow */
+.active-nav-glow {
+  box-shadow: inset 0 0 12px rgba(59, 130, 246, 0.1), 0 4px 12px -2px rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
