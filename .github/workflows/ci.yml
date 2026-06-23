@@ -57,6 +57,11 @@ jobs:
         run: |
           python generate_test_cases.py
 
+      - name: Generate Action Summary
+        working-directory: formsahayakbackend/tests
+        run: |
+          python generate_ci_summary.py
+
       - name: Upload Excel Reports as Artifacts
         uses: actions/upload-artifact@v4
         with:
