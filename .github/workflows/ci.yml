@@ -39,6 +39,7 @@ jobs:
       - name: Run Backend API Tests
         working-directory: formsahayakbackend
         run: |
+          mkdir -p audio pdfs uploads static
           python run_tests.py
 
       - name: Compile Backend Test Case Sheets (Orchestrator)

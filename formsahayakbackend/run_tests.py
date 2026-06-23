@@ -23,6 +23,10 @@ if os.path.exists(TEST_DB_PATH):
     except Exception as e:
         print(f"Could not remove old test database: {e}")
 
+# Create required directories if they don't exist
+for folder in ["audio", "pdfs", "uploads", "static"]:
+    os.makedirs(folder, exist_ok=True)
+
 # 2. Mock external dependencies at module level before importing main
 import pytesseract
 pytesseract.image_to_data = MagicMock(return_value={
