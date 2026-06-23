@@ -135,8 +135,12 @@ def on_startup():
         db.close()
         
     logger.info("MySQL tables verified/created on startup.")
-app.mount("/audio", StaticFiles(directory="audio"), name="audio")
 
+# Create required folders if they don't exist
+for folder in ["audio", "uploads", "pdfs", "static"]:
+    os.makedirs(folder, exist_ok=True)
+
+app.mount("/audio", StaticFiles(directory="audio"), name="audio")
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 app.add_middleware(
     CORSMiddleware,
