@@ -1,0 +1,78 @@
+name: FormSahayak CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test-and-generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r formsahayakbackend/requirements.txt
+
+      - name: Run Backend API Tests
+        working-directory: formsahayakbackend
+        run: |
+          python run_tests.py
+
+      - name: Compile Backend Test Case Sheets (Orchestrator)
+        working-directory: formsahayakbackend/tests
+        run: |
+          python run_orchestrator.py
+
+      - name: Compile Android Appium Test Cases
+        working-directory: formsahayak
+        run: |
+          python generate_appium_test_cases.py
+
+      - name: Compile Website Test Cases
+        working-directory: Formsahayak website
+        run: |
+          python generate_test_cases.py
+
+      - name: Upload Excel Reports as Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: FormSahayak-Test-Reports
+          if-no-files-found: warn
+          path: |
+            formsahayakbackend/API_Testing_Report.xlsx
+            formsahayakbackend/tests/**/*.xlsx
+            formsahayak/FormSahayak_Mobile_Automation_Test_Cases.xlsx
+            Formsahayak website/FormSahayak_Test_Cases.xlsx
+
+      - name: Commit and Push Updated Test Sheets
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Automated update of test case sheets and summaries [skip ci]"
+          file_pattern: |
+            formsahayakbackend/**/*.xlsx
+            formsahayakbackend/**/*.md
+            formsahayak/**/*.xlsx
+            Formsahayak website/**/*.xlsx
